@@ -1,7 +1,9 @@
 package lambda;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -33,18 +35,27 @@ public class LambdaExpressionTest {
 		String[] files = searchDirectory.list((dir, name) -> name.contains("Test"));
 		System.out.println(Arrays.asList(files));
 	}
-	
+
 	@Test
 	public void testBlockLambdaWithMultipleArgument() {
 		File searchDirectory = new File("./src/test/java/lambda");
 		String[] files = searchDirectory.list((dir, name) -> {
-			return name.contains("Test"); //In Block lambda return statement is needed if there is a return type.	
+			return name.contains("Test"); // In Block lambda return statement is
+											// needed if there is a return type.
 		});
 		System.out.println(Arrays.asList(files));
 	}
+
+	@Test
+	public void testInstanceMethodReference() {
+		System.out.println("Print number stream using lambda expression");
+		Stream.of(3, 1, 4, 1, 5, 9).forEach(x -> System.out.println(x));
+		System.out.println("Print number stream using method reference");
+		Stream.of(3, 1, 4, 1, 5, 9).forEach(System.out::println); // Here Method reference used with instance method
+	}
 	
 	@Test
-	public void testMethodReference(){
-		
+	public void testStaticMethodReference(){
+		Stream.generate(Math::random).limit(10).forEach(System.out::println);		
 	}
 }
