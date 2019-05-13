@@ -11,6 +11,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
+/**
+ * Generic follow PECS Producer extends Consumer super. So if there need a Producer then 
+ * use extends with wildcard (Upper bound) if we need a Consumer then use super with wildcard
+ * lower bound.
+ */
 public class GenericsTest {
 
 	@Test
@@ -106,6 +111,7 @@ public class GenericsTest {
 		System.out.println("Print numbers");
 		numbers.forEach(System.out::println);
 	}
+	
 
 	private void getRange(Integer limit, List<? super Integer> consumer) {
 		IntStream.rangeClosed(0, limit).forEach(consumer::add);
