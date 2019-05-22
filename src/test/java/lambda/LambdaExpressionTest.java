@@ -116,6 +116,17 @@ public class LambdaExpressionTest {
 		Assert.assertTrue("List of people generated from lambda and constructor refernce are not same", peoples.contains(people_s));
 	}
 	
+	@Test
+	public void testArrayCreation(){
+		List<String> names =
+			    Arrays.asList("Grace Hopper", "Barbara Liskov", "Ada Lovelace",
+			        "Karen Spärck Jones");
+		Person[] people=names.stream().map(Person::new).toArray(Person[]::new);
+		Assert.assertTrue("Number of person names is not equal to number of person created", names.size()==people.length);
+	}
+	
+	
+	
 	private class Person{
 		private String name;
 		
