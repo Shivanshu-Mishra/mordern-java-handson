@@ -69,13 +69,9 @@ public class ConsumerTest {
 	 */
 	@Test
 	public void testBiConsumer(){
-		Map<Integer,String> employeeId=new HashMap<>();
-		employeeId.put(1, "Akriti");
-		employeeId.put(2, "Sunita");
-		
-//		employeeId.entrySet().iterator().forEachRemaining(id,name -> System.out.println("Employee id:"+id+",Name:"+name));
-		
-		
+		Map<Integer,String> employees=new HashMap<>();
+		employees.put(1, "Akriti");
+		employees.put(2, "Sunita");
+		employees.forEach((id,name) -> System.out.println("Employee id:"+id+",name:"+name));		
 	}
-
 }
