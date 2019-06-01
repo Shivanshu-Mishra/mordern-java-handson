@@ -12,7 +12,7 @@ import org.junit.Test;
 import static predicates.CommonPredicates.*;
 
 public class PredicateTest {
-	String[] names={"Sunanda","Prakhar","Raymond","Melinda","Karim","Satish"};
+	String[] names={"Sunanda","Prakhar","Raymond","Melinda","Karim","Satish","suraj"};
 	
 	/**
 	 * The Single abstract method in predicate
@@ -32,9 +32,46 @@ public class PredicateTest {
 		Assert.assertTrue("Filtered list contains names other than starting with s", getNames(WORDS_STARTING_WITH_S, names).equals(expectedNamesStartingWithS));
 	}
 	
+	/**
+	 * Predicate has following default and static method
+	 * 
+	 * 1. default Predicate<T> and (Predicate<? super T> other)
+	 * 2. default Predicate<T> or (Predicate<? super T> other)
+	 * 3. default Predicate<T> negate()
+	 * 4. static <T> Predicate<T> isEqual(Object target)
+	 */
+	@Test
+	public void testOr(){
+		List<String> expectedNames=Arrays.asList("Sunanda","Satish","suraj");
+		List<String> filteredNames=getNames(WORDS_STARTING_WITH_S.or(WORDS_STARTING_WITH_s),names);
+		test(filteredNames,expectedNames);
+	}
 	
-	private List<String> getNames(Predicate<String> condition,String...names){
+	@Test
+	public void testAnd(){
+		List<String> expectedNames=Arrays.asList("Sunanda");
+		List<String> filteredNames=getNames(WORDS_STARTING_WITH_S.and(WORDS_LENGTH_GREATER_THAN_6),names);
+		test(filteredNames,expectedNames);
+	}
+	
+	@Test
+	public void testNegate(){
+		List<String> expectedNames = Arrays.asList("Karim","Satish","suraj");
+		List<String> filteredNames=getNames(WORDS_LENGTH_GREATER_THAN_6.negate(),names);
+		test(filteredNames,expectedNames);
+	}
+	
+	private void test(List<String> filteredNames,List<String> expectedNames){
+		Assert.assertTrue("Filtered list: "+toString(filteredNames) +"\n Expected list: "+toString(expectedNames), filteredNames.equals(expectedNames));
+	}
+	
+	
+	private List<String> getNames(Predicate<String> condition,String[] names){
 		return Arrays.stream(names).filter(condition).collect(Collectors.toList());
+	}
+	
+	private String toString(List<String> elements){
+		return elements.stream().collect(Collectors.joining(", "));
 	}
 
 }
